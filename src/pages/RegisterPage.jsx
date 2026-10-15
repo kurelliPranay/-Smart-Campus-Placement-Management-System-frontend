@@ -82,7 +82,12 @@ export default function RegisterPage() {
       setMessage('Registration successful. You can now sign in.');
       window.setTimeout(() => navigate('/login'), 1000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed.');
+      const responseData = err.response?.data;
+      const validationMessage = responseData
+        && Object.values(responseData).find((value) => typeof value === 'string');
+      setError(err.response
+        ? responseData?.message || validationMessage || 'Registration failed.'
+        : 'Cannot reach the backend API. Check the VITE_API_BASE_URL setting and make sure the backend is running.');
     } finally {
       setSubmitting(false);
     }

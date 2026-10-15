@@ -40,7 +40,9 @@ export default function LoginPage() {
       else if (currentUser.role === 'ADMIN') navigate('/admin');
       else navigate('/company');
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
+      setError(err.response
+        ? err.response.data?.message || 'Login failed. Please check your credentials.'
+        : 'Cannot reach the backend API. Check the VITE_API_BASE_URL setting and make sure the backend is running.');
     } finally {
       setSubmitting(false);
     }
